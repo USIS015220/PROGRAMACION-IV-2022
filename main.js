@@ -3,20 +3,19 @@ if(!db_sistema){
     alert('Lo siento tu navegado NO soporta BD locales.');
 }
 var app = new Vue({
-    el: '#appAlumno',
+    el: '#appCliente',
     data: {
-        alumnos: [],
+        Clientes: [],
         buscar: '',
         msg: 'Sistema Activo',
-        alumno: {
+        Cliente: {
             accion: 'nuevo',
-            idAlumno: '',
+            idCliente: '',
             codigo: '',
             nombre: '',
             direccion: '',
             telefono: '',
-            dui: '',
-            carrera: '',
+            Zona: '',
         },
         materias: [],
         buscar1: '',
@@ -51,13 +50,13 @@ var app = new Vue({
             let sql = '',
                 parametros = [];
             if(this.alumno.accion == 'nuevo'){
-                sql = 'INSERT INTO alumnos (codigo, nombre, direccion, telefono, dui, carrera) VALUES (?,?,?,?,?,?)';
-                parametros = [this.alumno.codigo,this.alumno.nombre,this.alumno.direccion,this.alumno.telefono,this.alumno.dui,this.alumno.carrera];
-            }else if(this.alumno.accion == 'modificar'){
+                sql = 'INSERT INTO Clientes (codigo, nombre, direccion, telefono, Zona) VALUES (?,?,?,?,,?)';
+                parametros = [this.Cliente.codigo,this.Cliente.nombre,this.Cliente.direccion,this.Cliente.telefono,this.alumno.dui,this.alumno.carrera];
+            }else if(this.Cliente.accion == 'modificar'){
                 sql = 'UPDATE alumnos SET codigo=?, nombre=?, direccion=?, telefono=?, dui=?, carrera=? WHERE idAlumno=?';
-                parametros = [this.alumno.codigo,this.alumno.nombre,this.alumno.direccion,this.alumno.telefono,this.alumno.dui,this.alumno.carrera,this.alumno.idAlumno];
+                parametros = [this.alumno.codigo,this.Cliente.nombre,this.alumno.direccion,this.alumno.telefono,this.alumno.dui,this.alumno.carrera,this.alumno.idAlumno];
             }else if(this.alumno.accion == 'eliminar'){
-                sql = 'DELETE FROM alumnos WHERE idAlumno=?';
+                sql = 'DELETE FROM Clientes WHERE idCliente=?';
                 parametros = [this.alumno.idAlumno];
             }
             db_sistema.transaction(tx=>{
@@ -65,18 +64,18 @@ var app = new Vue({
                     parametros,
 
                 (tx, results)=>{
-                    this.msg = 'Alumno Registrado Con Exito';
-                    this.nuevoAlumno();
-                    this.obtenerAlumno();
+                    this.msg = 'Cliente Registrado Con Exito';
+                    this.nuevoCliente();
+                    this.obtenerCliente();
                 },
                 (tx, error)=>{
                     switch(error.code){
                         case 6:
-                            this.msg = 'El codigo o el DUI ya existe, por favor digite otro';
+                            this.msg = 'El codigo o el Cliente ya existe, por favor digite otro';
                             break;
                             
                         default:
-                            this.msg = `Error al procesar el alumno: ${error.message}`;
+                            this.msg = `Error al procesar el Cliente: ${error.message}`;
                     }
                 });
             });
@@ -85,16 +84,16 @@ var app = new Vue({
             this.alumno = data;
             this.alumno.accion = 'modificar';
         },
-        eliminarAlumno(data){
-            if( confirm(`¿Esta seguro de eliminar el alumno ${data.nombre}?`) ){
-                this.alumno.idAlumno = data.idAlumno;
-                this.alumno.accion = 'eliminar';
-                this.guardarAlumno();
+        eliminarCliente(data){
+            if( confirm(`¿Esta seguro de eliminar el Cliente ${data.nombre}?`) ){
+                this.Clientes.idCliente = data.idCliente;
+                this.Clientes.accion = 'eliminar';
+                this.guardarCliente();
             }
         },
-        obtenerAlumno(busqueda=''){
+        obtenerCliente(busqueda=''){
             db_sistema.transaction(tx=>{
-                tx.executeSql(`SELECT * FROM alumnos WHERE nombre like "%${busqueda}%" OR codigo like "%${busqueda}%"`, [], (tx, results)=>{
+                tx.executeSql(`SELECT * FROM Clientes WHERE nombre like "%${busqueda}%" OR codigo like "%${busqueda}%"`, [], (tx, results)=>{
                     this.alumnos = results.rows;
                     /*this.clientes = [];
                     for(let i=0; i<results.rows.length; i++){
@@ -103,16 +102,15 @@ var app = new Vue({
                 });
             });
         },
-        nuevoAlumno(){
-            this.alumno.accion = 'nuevo';
-            this.alumno.idAlumno = '';
-            this.alumno.codigo = '';
-            this.alumno.nombre = '';
-            this.alumno.direccion = '';
-            this.alumno.telefono = '';
-            this.alumno.dui = '';
-            this.alumno.carrera ='Seleccionar Carrera';
-            console.log(this.alumno);
+        nuevoCliente(){
+            this.Cliente.accion = 'nuevo';
+            this.Cliente.idCliente = '';
+            this.Cliente.codigo = '';
+            this.Cliente.nombre = '';
+            this.Cliente.direccion = '';
+            this.Cliente.telefono = '';
+            this.Cliente.Zona ='Seleccionar Zona';
+            console.log(this.Cliente);
         },
 
         //Administrar inscripcin alumnos

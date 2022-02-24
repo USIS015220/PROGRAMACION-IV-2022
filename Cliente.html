@@ -9,54 +9,49 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-    <div id="appAlumno">
+    <div id="appCliente">
         <div class="container-fluid">
-            <form @submit.prevent="guardarAlumno" @reset.prevent="nuevoAlumno" method="post" id="frmAlumno">
+            <form @submit.prevent="guardarCliente" @reset.prevent="nuevoCliente" method="post" id="frmCliente">
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header text-white bg-dark">
-                        Administracion de Alumnos
+                        Administracion de Clientes
 
 
                     </div>
                     <div class="card-body">
                         <div class="row p-1">
-                            <div class="col col-md-1">Codigo</div>
+                            <div class="col col-md-1">Clientes</div>
                             <div class="col col-md-2">
-                                <input v-model="alumno.codigo" placeholder="codigo" pattern="[A-Z0-9]{3,10}" required title="Codigo de cliente" class="form-control" type="text">
+                                <input v-model="Cliente.codigo" placeholder="codigo" pattern="[A-Z0-9]{3,10}" required title="Codigo de cliente" class="form-control" type="text">
                             </div>
                         </div>
                         <div class="row p-1">
                             <div class="col col-md-1">Nombre</div>
                             <div class="col col-md-2">
-                                <input v-model="alumno.nombre"  placeholder="escribe tu nombre" pattern="[A-Za-zÑñáéíóú ]{3,75}" required title="Nombre de cliente" class="form-control" type="text">
+                                <input v-model="Cliente.nombre"  placeholder="escribe tu nombre" pattern="[A-Za-zÑñáéíóú ]{3,75}" required title="Nombre de cliente" class="form-control" type="text">
                             </div>
                         </div>
                         <div class="row p-1">
                             <div class="col col-md-1">Direccion</div>
                             <div class="col col-md-2">
-                                <input v-model="alumno.direccion" placeholder="donde vives" pattern="[A-Za-z0-9Ññáéíóú ]{3,100}" required title="Direccion de cliente" class="form-control" type="text">
+                                <input v-model="Cliente.direccion" placeholder="donde vives" pattern="[A-Za-z0-9Ññáéíóú ]{3,100}" required title="Direccion de cliente" class="form-control" type="text">
                             </div>
                         </div>
                         <div class="row p-1">
                             <div class="col col-md-1">Telefono</div>
                             <div class="col col-md-2">
-                                <input v-model="alumno.telefono" placeholder="tu tel" pattern="[0-9]{4}-[0-9]{4}" required title="Telefono de cliente" class="form-control" type="text">
+                                <input v-model="Cliente.telefono" placeholder="tu tel" pattern="[0-9]{4}-[0-9]{4}" required title="Telefono de cliente" class="form-control" type="text">
                             </div>
                         </div>
+        
                         <div class="row p-1">
-                            <div class="col col-md-1">DUI</div>
-                            <div class="col col-md-2">
-                                <input v-model="alumno.dui" placeholder="tu DUI" pattern="[0-9]{8}-[0-9]{1}" required title="DUI de cliente" class="form-control" type="text">
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Carrera</div>
+                            <div class="col col-md-1">Zona</div>
                             <div class="col col-md-2">
                                 <select v-model="alumno.carrera" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option  selected>Seleccionar Carrera</option>
-                                    <option value="Ingenieria En Sistemas y Redes Informaticas">Ingenieria En Sistemas</option>
-                                    <option value="Medicina">Medicina</option>
-                                    <option value="Artes Plasticas">Artes Plasticas</option>
+                                    <option  selected>Seleccionar Zona</option>
+                                    <option value="Ingenieria En Sistemas y Redes Informaticas">Usulutan</option>
+                                    <option value="Medicina">Los Naranjos</option>
+                                    <option value="Artes Plasticas">El molino</option>
                                   </select>
                             </div> 
                         </div>
@@ -79,7 +74,7 @@
             </form>
             <div class="card mb-3" id="cardBuscarCliente">
                 <div class="card-header text-white bg-dark">
-                    Busqueda de Alumnos
+                    Busqueda de Clientes
 
                 </div>
                 <div class="card text-white bg-dark mb-3">
@@ -87,7 +82,7 @@
                         <thead>
                             <tr>
                                 <td colspan="6">
-                                    Buscar: <input title="Introduzca el texto a buscar" @keyup="buscarAlumno" v-model="buscar" class="form-control" type="text">
+                                    Buscar: <input title="Introduzca el texto a buscar" @keyup="cardBuscarCliente" v-model="buscar" class="form-control" type="text">
                                 </td>
                             </tr>
                             <tr>
@@ -95,22 +90,20 @@
                                 <th>Nombre</th>
                                 <th>Direccion</th>
                                 <th>Telefono</th>
-                                <th>DUI</th>
-                                <th>Carrera</th>
+                                <th>Zona</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in alumnos" :key="item.idAlumno">
+                            <tr v-for="item in Clientes" :key="item.idCliente">
                                 <td>{{item.codigo}}</td>
                                 <td>{{item.nombre}}</td>
                                 <td>{{item.direccion}}</td>
                                 <td>{{item.telefono}}</td>
-                                <td>{{item.dui}}</td>
-                                <td>{{item.carrera}}</td>
+                                <td>{{item.Zona}}</td>
                                 <td>
-                                    <button type="button" class="btn btn-danger" @click="eliminarAlumno(item)">Eliminar</button>
-                                    <button type="button" class="btn btn-success" @click="modificarAlumno(item)">Modificar</button>
-                                    <button type="button" class="btn btn-info" @click="Inscripcion(item)">Incribir Materias</button>
+                                    <button type="button" class="btn btn-danger" @click="eliminarCliente(item)">Eliminar</button>
+                                    <button type="button" class="btn btn-success" @click="modificarCliente(item)">Modificar</button>
+                                    <button type="button" class="btn btn-info" @click="Inscripcion(item)">Agregar Cliente</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -120,71 +113,9 @@
             <form @submit.prevent="guardarInscripcion" @reset.prevent="nuevoInscripcion" method="post" id="frmMaterias">
                 <div class="card text-white bg-dark mb-3">
                     <div class="card-header text-white bg-dark">
-                        Administracion de Materias
-
-                    </div>
-                    <div class="card-body">
-                        <div class="row p-1">
-                            <div class="col col-md-1">Codigo</div>
-                            <div class="col col-md-2">
-                                <input v-model="materia.codigo1" placeholder="Codigo" pattern="[A-Z0-9]{3,10}" required title="Codigo de cliente" class="form-control" type="text" disabled>
-                            </div>
+                        
                         </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Nombre</div>
-                            <div class="col col-md-2">
-                                <input v-model="materia.nombre1"  placeholder="Nombre del alumno" pattern="[A-Za-zÑñáéíóú ]{3,75}" required title="Nombre de cliente" class="form-control" type="text" disabled>
-                            </div>
-                        </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Materia 1</div>
-                            <div class="col col-md-2">
-                                <select v-model="materia.materia1" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option  selected>Ninguna</option>
-                                    <option value="Metodologia de la investigacion">Metodologia de la investigacion/option>
-                                    <option value="Sociologia">Sociologia</option>
-                                    
-                                  </select>
-                            </div> 
-                        </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Materia 2</div>
-                            <div class="col col-md-2">
-                                <select v-model="materia.materia2" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option  selected>Ninguna</option>
-                                    <option value="Ingles Basico">Ingles Basico</option>
-                                    <option value="Ingles Tecnico">Ingles Tecnico</option>
-                                  </select>
-                            </div> 
-                        </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Materia 3</div>
-                            <div class="col col-md-2">
-                                <select v-model="materia.materia3" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option  selected>Ninguna</option>
-                                    <option value="Curso Superior de Gramatica">Curso Superior de Gramatica</option>
-                                    <option value="Matematica I">Matematica I</option>
-                                  </select>
-                            </div> 
-                        </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Materia 4</div>
-                            <div class="col col-md-2">
-                                <select v-model="materia.materia4" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option  selected>Ninguna</option>
-                                    <option value="Matematica II">Matematica II</option>
-                                    <option value="Fisica I">Fisica I</option>
-                                  </select>
-                            </div> 
-                        </div>
-                        <div class="row p-1">
-                            <div class="col col-md-1">Materia 5</div>
-                            <div class="col col-md-2">
-                                <select v-model="materia.materia5" class="form-select form-select-sm" aria-label=".form-select-sm example">
-                                    <option  selected>Ninguna</option>
-                                    <option value="Filosofia">Filosofia</option>
-                                    <option value="Sociedad e Historia">Sociedad e Historia</option>
-                                  </select>
+        
                             </div> 
                         </div>
                         <div class="row">
@@ -207,7 +138,7 @@
             
             <div class="card text-white bg-dark mb-3" id="cardBuscarCliente">
                 <div class="card-header text-white bg-dark">
-                    Busqueda de Inscripcion de Materias
+                    Busqueda de Clientes
 
                 </div>
                 <div class="card-body">
